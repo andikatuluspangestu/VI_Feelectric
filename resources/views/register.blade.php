@@ -14,6 +14,18 @@
             <div class="card">
                 <div class="card-header">Register Form</div>
                 <div class="card-body">
+                    <!-- Tempat untuk menampilkan error -->
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    <!-- Form Registrasi -->
                     <form method="POST" action="{{ route('register.post') }}">
                         @csrf
                         <div class="form-group">
