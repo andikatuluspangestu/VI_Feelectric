@@ -20,7 +20,9 @@
                         @endif
 
                         You are logged in, {{ Auth::user()->name }}!
+                        <a href="{{ route('user.edit', auth()->user()->id) }}" class="btn btn-primary ml-3">Edit Profile</a>
                         <hr>
+                        
                         <p>This is your dashboard. You can customize this page as needed.</p>
                     </div>
                 </div>
