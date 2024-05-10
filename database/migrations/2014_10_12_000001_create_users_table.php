@@ -6,25 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
+    /**
+     * Run the migrations to create the users table with specific fields.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('profile_picture')->nullable(); // Tambahkan kolom untuk gambar profil
-            $table->date('date_of_birth')->nullable(); // Tambahkan kolom untuk tanggal lahir
-            $table->string('gender')->nullable(); // Tambahkan kolom untuk gender
-            $table->string('phone_number')->nullable(); // Tambahkan kolom untuk nomor telepon
-            $table->rememberToken();
-            $table->timestamps();
+            $table->id(); // Primary key
+            $table->string('email')->unique(); // Ensure email is unique
+            $table->string('name')->nullable(); // Name of the user, nullable
+            $table->string('username')->unique()->nullable(); // Username is unique and can be null
+            $table->string('password'); // Password for authentication
+            $table->rememberToken(); // Adds a nullable remember_token of type VARCHAR(100) for "remember me" functionality
+            $table->timestamps(); // Timestamps for created_at and updated_at
         });
     }
 
+    /**
+     * Reverse the migrations by dropping the users table.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('users'); // Drop the table if the migration is rolled back
     }
 }

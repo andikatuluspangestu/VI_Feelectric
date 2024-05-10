@@ -27,16 +27,16 @@ Route::get('register', [RegisterController::class, 'showRegistrationForm'])->nam
 Route::post('register', [RegisterController::class, 'register'])->name('register.post');
 Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallback']);
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+
 
 Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
 Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+
+
+Route::get('/v_home', function () {
+    return view('v_home.index');
+})->name('v_home.index');
 
 
 

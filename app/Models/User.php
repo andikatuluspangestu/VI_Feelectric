@@ -19,11 +19,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'profile_picture',
-        'date_of_birth',
-        'gender',
-        'phone_number'
+        'username',
+        'password', // Menambahkan password jika Anda mengelola password melalui form
     ];
 
     /**
@@ -43,6 +40,5 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'date_of_birth' => 'date',
     ];
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -17,7 +18,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('register');
+        return view('v_register.index'); // Menampilkan view form registrasi
     }
 
     /**
@@ -26,32 +27,30 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-   
-     public function register(Request $request)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|max:255',
-        'email' => 'required|email|max:255|unique:users',
-        'password' => 'required|confirmed|min:8',
-    ]);
+    public function register(Request $request)
+    {
+        // Melakukan validasi data yang dikirimkan melalui form
+        $validatedData = $request->validate([
+            'email' => 'required|email|unique:users,email|max:255',
+            'username' => 'required|string|unique:users,username|max:255', // Validasi username
+            'password' => 'required|string|min:8|confirmed', // Konfirmasi password harus sesuai
+        ]);
 
-    // Mencoba membuat pengguna baru
-    $user = User::create([
-        'name' => $validatedData['name'],
-        'email' => $validatedData['email'],
-        'password' => Hash::make($validatedData['password']),
-    ]);
+        // Membuat pengguna baru
+        $user = User::create([
+            'email' => $validatedData['email'],
+            'username' => $validatedData['username'],
+            'password' => Hash::make($validatedData['password']),
+            'remember_token' => Str::random(60),  // Memastikan ini dieksekusi
+        ]);
+        
+        if ($user) {
+            Auth::login($user, true); // menggunakan true untuk "remember me"
+            return redirect()->route('v_home.index');
+        }
+        
 
-    // Memeriksa jika pengguna berhasil dibuat
-    if ($user) {
-        Auth::login($user); // Loginkan pengguna
-        Log::info('Registrasi user baru', ['user_id' => $user->id]);  // Menambahkan log info
-
-        return redirect('/dashboard'); // Mengarahkan ke dashboard
-    } else {
-        // Jika pembuatan pengguna gagal, kembali ke form registrasi dengan error
+        // Jika ada kesalahan tidak terduga, kembali ke form dengan pesan kesalahan
         return back()->withErrors('Gagal membuat pengguna baru.');
     }
-}
-
 }
