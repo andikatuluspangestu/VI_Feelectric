@@ -15,6 +15,8 @@ class LoginController extends Controller
      *
      * @return \Illuminate\View\View
      */
+
+     
     public function showLoginForm()
     {
         return view('v_login.index');  // Pastikan view ini benar
@@ -27,22 +29,24 @@ class LoginController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-    
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->route('v_home.index'); // Mengarahkan pengguna ke halaman v_home.index setelah login berhasil
-        }
-    
-        return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
-    }
-    
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-    
+    if (Auth::attempt($credentials, $request->filled('remember'))) {
+        $request->session()->regenerate();
+
+        // Ambil data pengguna yang berhasil login
+        $user = Auth::user();
+
+        // Kirim data pengguna ke halaman v_user
+        return view('v_user.index', compact('user'));
+    }
+
+    return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
+}
 
     /**
      * Keluar dari sesi login.
@@ -93,6 +97,6 @@ class LoginController extends Controller
 
         Auth::login($user, true);  // Remember the user
 
-        return redirect()->route('v_home.index');  // Asumsikan ada route dashboard
+        return redirect()->route('v_user.index');  // Asumsikan ada route dashboard
     }
 }

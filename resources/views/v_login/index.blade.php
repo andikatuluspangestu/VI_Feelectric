@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="asset/image/favicon.svg" type="image/x-icon">
     <script src="https://kit.fontawesome.com/18b04d2726.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="asset/css/style.css">
-    <script src="/asset/js/index.js"></script>
+    <script src="asset/js/index.js"></script>
     <style>
         .divider:after,
         .divider:before {
@@ -137,22 +137,21 @@
 
 <div class="">
 <div class="mb-3">
-    <a href="{{ route('v_home.index') }}" class="btn btn-dark" style="width: 100%; background-color: #3C2A21;">Login</a>
+    <a href="{{ route('v_user.index') }}" class="btn btn-dark" style="width: 100%; background-color: #3C2A21;">Login</a>
 </div>
-
             
             <div class="text-center mt-2 mb-3 divider">――――――― or login with ―――――――</div>
-            <div class="mb-3" style="display: flex; justify-content: center;">
-    <a href="{{ route('google.login') }}" class="btn google-btn d-flex align-items-center"
-        style="border:2px solid #3C2A21; padding: 10px 20px; text-decoration: none;">
-        <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google" style="margin-right: 10px;">
+            <div class="mb-3">
+    <a href="{{ route('google.login') }}" class="btn google-btn d-flex align-items-center justify-content-center"
+        style="border:2px solid #3C2A21;">
+        <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google">
         <span>Login with Google</span>
     </a>
 </div>
 
             <div class="text-center text-decoration-none">
                 <p class="m-0">Belum memiliki akun?</p>
-                <a href="{{route('register')}}" class="text-decoration-none fw-semibold" style="color: #073220;">Daftar disini</a>
+                <a href="{{route ('register') }}" class="text-decoration-none fw-semibold" style="color: #073220;">Daftar disini</a>
             </div>
         </div>
     </div>

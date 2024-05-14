@@ -19,6 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable(); // Name of the user, nullable
             $table->string('username')->unique()->nullable(); // Username is unique and can be null
             $table->string('password'); // Password for authentication
+            $table->string('profile_picture')->nullable(); // Kolom untuk menyimpan path file gambar profil
+            $table->string('date_of_birth')->nullable(); // Tambahkan kolom untuk tanggal lahir yang bisa null
+            $table->string('gender')->nullable(); // Tambahkan kolom untuk jenis kelamin yang bisa null
+            $table->string('phone')->nullable(); // Tambahkan kolom untuk nomor telepon yang bisa null
             $table->rememberToken(); // Adds a nullable remember_token of type VARCHAR(100) for "remember me" functionality
             $table->timestamps(); // Timestamps for created_at and updated_at
         });

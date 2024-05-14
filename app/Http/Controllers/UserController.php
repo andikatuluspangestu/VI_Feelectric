@@ -3,41 +3,56 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; 
 
 class UserController extends Controller
 {
-    public function show($id)
+    public function index()
     {
-        $user = User::findOrFail($id);
-        return view('user.show', compact('user'));
-    }
-
-    public function edit($id)
-    {
-        $user = User::findOrFail($id);
-        return view('user.edit', compact('user'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-    
-        // Handle file upload
-        if ($request->hasFile('profile_picture') && $request->file('profile_picture')->isValid()) {
-            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
-            $user->profile_picture = $path; 
+        $user = Auth::user(); // Mendapatkan pengguna yang login
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
         }
-    
-        // Update data lainnya
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->date_of_birth = $request->date_of_birth;
-        $user->gender = $request->gender;
-        $user->phone_number = $request->phone;
-    
-        $user->save();
-    
-        return redirect()->route('user.show', $user->id)->with('success', 'Profile updated successfully!');
+        return view('v_user.index', compact('user')); // Mengirim pengguna yang login ke view
     }
     
+public function show()
+{
+    $user = Auth::user(); // Dapatkan pengguna yang sedang login
+    return view('v_user.index', compact('user'));
+}
+
+public function edit($id)
+{
+    $user = User::findOrFail($id); // Dapatkan user berdasarkan ID atau lempar 404 jika tidak ditemukan
+    return view('v_user.edit', compact('user')); // Ganti 'user.edit' dengan 'v_user.edit'
+}
+
+
+public function update(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+
+    // Validasi input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        'date_of_birth' => 'required|date',
+        'gender' => 'required',
+        'phone' => 'required|numeric'
+    ]);
+
+    // Pengecekan dan penyimpanan file foto profil
+    if ($request->hasFile('profile_picture') && $request->file('profile_picture')->isValid()) {
+        $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+        $request->merge(['profile_picture' => $path]); // Menyimpan path baru ke dalam array request sebelum update
+    }
+
+    // Pembaruan data pengguna
+    $user->update($request->all());
+
+    // Arahkan pengguna kembali ke halaman profil dengan pesan sukses
+    return redirect()->route('user.profile', $id)->with('success', 'Profile updated successfully!');
+}
+
 }

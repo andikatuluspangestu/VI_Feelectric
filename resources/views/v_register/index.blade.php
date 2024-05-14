@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="asset/image/favicon.svg" type="image/x-icon">
     <script src="https://kit.fontawesome.com/18b04d2726.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="asset/css/style.css">
-    <script src="/asset/js/index.js"></script>
+    <script src="asset/js/index.js"></script>
     <style>
       body, html {
             height: 100%;
@@ -87,12 +87,12 @@
                 <div class="form-group mb-1 position-relative">
                     <label for="inputPassword" class="form-label float-start">Password</label>
                     <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
-                    <i class="fas fa-eye form-control-icon" onclick="togglePasswordVisibility('inputPassword')"></i>
+                    <i class="fas fa-eye form-control-icon" style="padding-top: 30px;" onclick="togglePasswordVisibility('inputPassword')"></i>
                 </div>
                 <div class="form-group mb-2 position-relative">
                     <label for="inputConfirmPassword" class="form-label float-start">Confirm Password</label>
                     <input type="password" id="inputConfirmPassword" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
-                    <i class="fas fa-eye form-control-icon" onclick="togglePasswordVisibility('inputConfirmPassword')"></i>
+                    <i class="fas fa-eye form-control-icon" style="padding-top: 30px;" onclick="togglePasswordVisibility('inputConfirmPassword')"></i>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-dark" style="width: 100%; background-color: #3C2A21;">Register</button>
