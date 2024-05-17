@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="shortcut icon" href="asset/image/favicon.svg" type="image/x-icon">
     <script src="https://kit.fontawesome.com/18b04d2726.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="asset/css/style.css">
@@ -119,26 +120,28 @@
         <h1 class="text-center fs-3 p-1">Login</h1>
         <p class="text-center " style="line-height: 1; font-size: 15px;">Welcome to Feelectric Coffee Shop! Please
             login to access our exclusive offers and rewards. Let's brew up some great moments together!</p>
-        <div class="form-group mb-2">
-            <label for="inputEmail" class="form-label float-start">Email</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="example@gmail.com" required
-                style="border:2px solid #3C2A21; ">
-        </div>
-        <div class="form-group mb-2">
-    <label for="inputPassword" class="form-label float-start">Password</label>
-    <div class="input-group">
-        <input type="password" id="inputPassword" class="form-control" placeholder="********" required
-            style="border:2px solid #3C2A21; padding-right: 30px; border-radius: 5px;">
-        <span class="input-group-text">
-            <i class="fa-solid fa-eye form-control-icon" onclick="togglePasswordVisibility('inputPassword')"></i>
-        </span>
-    </div>
-</div>
+        <form action="{{ route('login') }}" method="POST">
+            @csrf
+            <div class="form-group mb-2">
+                <label for="inputEmail" class="form-label float-start">Email</label>
+                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="example@gmail.com" required
+                    style="border:2px solid #3C2A21;">
+            </div>
+            <div class="form-group mb-2">
+                <label for="inputPassword" class="form-label float-start">Password</label>
+                <div class="input-group">
+                    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="********" required
+                        style="border:2px solid #3C2A21; padding-right: 30px; border-radius: 5px;">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-eye form-control-icon" onclick="togglePasswordVisibility('inputPassword')"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-dark" style="width: 100%; background-color: #3C2A21;">Login</button>
+            </div>
+        </form>
 
-<div class="">
-<div class="mb-3">
-    <a href="{{ route('v_user.index') }}" class="btn btn-dark" style="width: 100%; background-color: #3C2A21;">Login</a>
-</div>
             
             <div class="text-center mt-2 mb-3 divider">――――――― or login with ―――――――</div>
             <div class="mb-3">
@@ -157,9 +160,19 @@
     </div>
 </div>
 
-
-
-
+<script>
+function togglePasswordVisibility(inputId) {
+    var input = document.getElementById(inputId);
+    var icon = input.parentElement.querySelector('.input-group-text i');  // Memilih ikon di dalam <span>
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');  // Mengganti ikon mata terbuka menjadi tertutup
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');  // Mengganti ikon mata tertutup menjadi terbuka
+    }
+}
+</script>
 
 </body>
 

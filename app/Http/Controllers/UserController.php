@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
+use App\Models\CartItem;
 
 class UserController extends Controller
 {
@@ -13,9 +14,12 @@ class UserController extends Controller
         if (!$user) {
             return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
         }
-        return view('v_user.index', compact('user')); // Mengirim pengguna yang login ke view
+        return view('v_user.index_logined', compact('user')); // Mengirim pengguna yang login ke view
     }
     
+  
+
+
 public function show()
 {
     $user = Auth::user(); // Dapatkan pengguna yang sedang login
@@ -54,5 +58,11 @@ public function update(Request $request, $id)
     // Arahkan pengguna kembali ke halaman profil dengan pesan sukses
     return redirect()->route('user.profile', $id)->with('success', 'Profile updated successfully!');
 }
-
+public function cartItems()
+{
+    return $this->hasMany(CartItem::class);
 }
+}
+
+
+

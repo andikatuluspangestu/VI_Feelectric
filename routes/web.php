@@ -9,7 +9,8 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\VoucherController;
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ use App\Http\Controllers\VoucherController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('v_home/index');
 });
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -37,13 +38,17 @@ Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallb
 
 
 Route::get('/v_user', [UserController::class, 'index'])->name('v_user.index');
-Route::get('/user/profile/{id}', [UserController::class, 'show'])->name('user.profile');
+
+Route::get('/v_user/profile/{id}', [UserController::class, 'show'])->name('user.profile');
 
 Route::get('/v_user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
 
 Route::post('/v_user/{id}', [UserController::class, 'update'])->name('user.update');
 
-
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 
 Route::post('/addresses/store', [AddressController::class, 'store'])->name('addresses.store');
 Route::get('/provinces/{province}/cities', [AddressController::class, 'getCitiesByProvince'])->name('provinces.cities');
@@ -61,8 +66,6 @@ Route::get('/address/{id}/edit', [AddressController::class, 'edit'])->name('addr
 Route::put('/address/{id}', [AddressController::class, 'update'])->name('address.update');
 Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
 
-
-
 Route::get('/api/cities/{province_id}', [LocationController::class, 'getCitiesByProvince']);
 Route::get('/api/address-from-coords',[LocationController::class, 'getAddressFromCoords']);
 // Dalam file web.php, tambahkan route untuk menampilkan form
@@ -71,21 +74,23 @@ Route::get('/address/create', [LocationController::class, 'showForm'])->name('ad
 Route::get('/notifications', [NotificationController::class, 'index'])->name('v_notif.index');
 Route::get('/notifications/{id}', [NotificationController::class,'show'])->name('v_notif.show');
 
-
-
-
 Route::get('/pesanans', [PesananController::class, 'index'])->name('v_pesanan.index');
 Route::get('/pesanans/{id}', [PesananController::class, 'show'])->name('v_pesanan.show');
-
-
 
 Route::get('/vouchers', [VoucherController::class, 'index'])->name('v_voucher.index');
 Route::get('/vouchers/{id}', [VoucherController::class, 'show'])->name('v_voucher.show');
 
+Route::get('/v_home', function () {return view('v_home.index');})->name('v_home.index');
 
-Route::get('/v_home', function () {
-    return view('v_home.index');
-})->name('v_home.index');
+Route::get('/v_menu', [ProductController::class, 'index'])->name('v_menu.index');
+Route::get('/product/{id}', [ProductController::class, 'detail'])->name('v_menudetail.detail');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('v_cart.index');
+    Route::post('/cart/update/{cartItemId}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{cartItemId}', [CartController::class, 'remove'])->name('cart.remove');
+});
 
 // Route::get('/v_user', function () {
 //     return view('v_user.index');

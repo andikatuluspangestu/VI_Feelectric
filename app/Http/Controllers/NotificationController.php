@@ -14,7 +14,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $user = Auth::user(); // Make sure $user is defined by getting the authenticated user
+        $user = Auth::user(); 
 
         if (!$user) {
             return redirect()->route('login')->with('error', 'You must be logged in to view notifications.');

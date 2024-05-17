@@ -41,8 +41,12 @@
                 <a class="nav-link active" href="#">Booking Meja</a>
               </li>
             </ul>
-           <a href="{{route('login')}}"><button type="button" class="btn btn-light text-light ms-5"
-              style="background-color: #3B2621;">Masuk/Daftar</button></a>
+            <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="d-flex align-items-center profile-link">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <span class="profile-name ms-2">{{ $user->name }}</span>
+            </a>
+
+
           </div>
         </div>
     </nav>
