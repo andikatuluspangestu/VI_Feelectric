@@ -65,12 +65,12 @@ Route::put('/address/{id}', [AddressController::class, 'update'])->name('address
 Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
 
 Route::get('/api/cities/{province_id}', [LocationController::class, 'getCitiesByProvince']);
-Route::get('/api/address-from-coords',[LocationController::class, 'getAddressFromCoords']);
+Route::get('/api/address-from-coords', [LocationController::class, 'getAddressFromCoords']);
 // Dalam file web.php, tambahkan route untuk menampilkan form
 Route::get('/address/create', [LocationController::class, 'showForm'])->name('address.create');
 
 Route::get('/notifications', [NotificationController::class, 'index'])->name('v_notif.index');
-Route::get('/notifications/{id}', [NotificationController::class,'show'])->name('v_notif.show');
+Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('v_notif.show');
 
 Route::get('/pesanans', [PesananController::class, 'index'])->name('v_pesanan.index');
 Route::get('/pesanans/{id}', [PesananController::class, 'show'])->name('v_pesanan.show');
@@ -78,7 +78,9 @@ Route::get('/pesanans/{id}', [PesananController::class, 'show'])->name('v_pesana
 Route::get('/vouchers', [VoucherController::class, 'index'])->name('v_voucher.index');
 Route::get('/vouchers/{id}', [VoucherController::class, 'show'])->name('v_voucher.show');
 
-Route::get('/v_home', function () {return view('v_home.index');})->name('v_home.index');
+Route::get('/v_home', function () {
+    return view('v_home.index');
+})->name('v_home.index');
 
 Route::get('/v_menu', [MenuController::class, 'index'])->name('v_menu.index');
 Route::get('/menu/{id}', [MenuController::class, 'show'])->name('v_menudetail.detail');
@@ -86,15 +88,11 @@ Route::get('/menu/{id}', [MenuController::class, 'show'])->name('v_menudetail.de
 Route::middleware('auth')->group(function () {
     Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('v_cart.index');
-    
-    Route::post('/cart/update/{cartItemId}', [CartController::class, 'update'])->name('cart.update');
+
+    Route::put('/cart/update/{cartItemId}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{cartItemId}', [CartController::class, 'remove'])->name('cart.remove');
-    
 });
 
 // Route::get('/v_user', function () {
 //     return view('v_user.index');
 // })->name('v_user.index');
-
-
-
