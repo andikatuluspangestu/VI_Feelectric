@@ -45,7 +45,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="img-fluid" style="width: 500px;">
+            <img src="{{ asset('asset/image/beans.png')}}" alt="{{ $product->name }}" class="img-fluid" style="width: 500px;">
             <div class="d-flex mt-3">
                 <!-- Thumbnail images here -->
             </div>
@@ -54,17 +54,20 @@
             <h2>{{ $product->name }}</h2>
             <p class="text-muted">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
             <p>{{ $product->detailed_description }}</p>
-            <p><strong>Ukuran</strong></p>
-
-<select class="form-select mb-3">
-  <option selected>Pilih Ukuran</option>
-  <option value="kecil">Kecil</option>
-  <option value="sedang">Sedang</option>
-  <option value="besar">Besar</option>
-</select>
-
-                <!-- Options here -->
+            <p><strong>Temperature</strong></p>
+            <select class="form-select mb-3" name="temperature">
+                <option selected>Pilih Temperature</option>
+                <option value="hot">Hot</option>
+                <option value="cold">Cold</option>
             </select>
+            <p><strong>Ukuran</strong></p>
+            <select class="form-select mb-3" name="size">
+                <option selected>Pilih Ukuran</option>
+                <option value="kecil">Kecil</option>
+                <option value="sedang">Sedang</option>
+                <option value="besar">Besar</option>
+            </select>
+          
             <p><strong>Catatan</strong></p>
             <textarea class="form-control mb-3" rows="3" placeholder="Tambahkan catatan"></textarea>
             <p><strong>{{ $product->stock }} in stock</strong></p>
@@ -80,7 +83,7 @@
     <div class="text">
         <div class="card-body">
             <h5 class="card-title">Deskripsi</h5>
-            <p class="card-text">{{ $product->detailed_description }}</p>
+            <p class="card-text">{{ $product->description }}</p>
         </div>
     </div>
 </div>
@@ -132,6 +135,9 @@
     function addToCart(productId) {
         const quantity = document.querySelector('input[type="number"]').value;
         const notes = document.querySelector('textarea').value;
+        const temperature = document.querySelector('select[name="temperature"]').value;
+        const size = document.querySelector('select[name="size"]').value;
+
 
         fetch(`/cart/add/${productId}`, {
             method: 'POST',
@@ -141,12 +147,16 @@
             },
             body: JSON.stringify({
                 quantity: quantity,
-                notes: notes
+                notes: notes,
+                size: size,
+                temperature: temperature
             })
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                return response.json().then(err => {
+                    throw new Error(err.error || 'Network response was not ok');
+                });
             }
             return response.json();
         })
@@ -159,5 +169,6 @@
         });
     }
 </script>
+
 </body>
 </html>

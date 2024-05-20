@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,5 +8,17 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'image', 'detailed_description', 'short_description', 'stock'];
+    protected $fillable = [
+        'image',
+        'category_id',
+        'name',
+        'description',
+        'price',
+        'stock',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

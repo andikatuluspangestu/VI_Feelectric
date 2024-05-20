@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/18b04d2726.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
     <style>
         body {
             background-color: #FFF7E8;
@@ -80,7 +80,7 @@
             <div class="d-flex align-items-center">
                 <a style="color: #3B2621;" href="#"><i class="fas fa-shopping-cart profile-icon me-2"></i></a>
                 <a style="color: #3B2621;" href="#"><i class="fas fa-user-circle profile-icon"></i></a>
-                <span class="profile-name ms-2">{{ $user->name }}</span>
+                <span class="profile-name ms-2">{{ Auth::user()->name }}</span>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between">
         <div class="input-group w-auto">
-            <span class="input-group-text" style="background-color: white;"><a href="#"><i class="fas fa-search" style="color: #3B2621;"></i></a></span>
+            <span class="input-group-text" style="background-color: white;"><a href="#"><i class="fas fa-search" style="color: #3B2621;" ></i></a></span>
             <input type="text" class="form-control" placeholder="Mau minum apa hari ini..." aria-label="Search">
         </div>
         <ul class="nav nav-pills gap-3">
@@ -100,13 +100,13 @@
                 <a class="nav-link rounded-pill border-2" style="background-color: #FFF7E8; color: #3B2621;" href="#">Ordinary Coffee</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link rounded-pill border-2" style="background-color: #FFF7E8; color: #3B2621;" href="#">Manual Brew</a>
+                <a class="nav-link  rounded-pill border-2" style="background-color: #FFF7E8; color: #3B2621;" href="#">Manual Brew</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link rounded-pill border-2" style="background-color: #FFF7E8; color: #3B2621;" href="#">Latte Non Coffee</a>
+                <a class="nav-link  rounded-pill border-2" style="background-color: #FFF7E8; color: #3B2621;" href="#">Latte Non Coffee</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link rounded-pill border-2" style="background-color: #FFF7E8; color: #3B2621;" href="#">Feel The Signature</a>
+                <a class="nav-link  rounded-pill border-2" style="background-color: #FFF7E8; color: #3B2621;" href="#">Feel The Signature</a>
             </li>
         </ul>
     </div>
@@ -118,10 +118,10 @@
         @foreach ($products as $product)
         <div class="col">
             <div class="card product-card" style="color: #3B2621;">
-                <img src="{{ asset($product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                <img src="{{ asset('asset/image/beans.png')}}" class="card-img-top" alt="{{ $product->name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ $product->name }}</h5>
-                    <p class="card-text">{{ $product->short_description }}</p>
+                    <p class="card-text">{{ $product->description }}</p>
                     <div class="price-button">
                         <p class="card-price fw-bold mb-0">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
                         <a href="{{ route('v_menudetail.detail', $product->id) }}" class="btn text-light" style="background-color: #3B2621;">Pesan</a>
@@ -158,6 +158,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script> <!-- Replace with your FontAwesome kit ID -->
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
 </body>
 </html>

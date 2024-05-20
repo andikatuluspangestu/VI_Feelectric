@@ -1,17 +1,16 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
     public function run()
     {
-        DB::table('categories')->insert([
-            ['name' => 'Coffee'],
-            // Tambahkan kategori lainnya jika diperlukan
-        ]);
+        Category::create(['name' => 'Ordinary Coffee']);
+        Category::create(['name' => 'Manual Brew']);
+        Category::create(['name' => 'Latte Non Coffee']);
+        Category::create(['name' => 'Feel The Signature']);
     }
 }

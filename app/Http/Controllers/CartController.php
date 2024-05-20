@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -22,12 +23,16 @@ class CartController extends Controller
                 // Jika item sudah ada di keranjang, tambahkan kuantitas
                 $cartItem->quantity += $request->input('quantity', 1);
                 $cartItem->notes = $request->input('notes', '');
+                $cartItem->size = $request->input('size');
+                $cartItem->temperature = $request->input('temperature'); // Make sure to set the temperature
                 $cartItem->save();
             } else {
                 // Jika item belum ada di keranjang, buat baru
                 CartItem::create([
                     'user_id' => Auth::id(),
                     'product_id' => $product->id,
+                    'size' => $request->input('size'),
+                    'temperature' => $request->input('temperature'), // Make sure to set the temperature
                     'quantity' => $request->input('quantity', 1),
                     'notes' => $request->input('notes', ''),
                 ]);
@@ -35,31 +40,34 @@ class CartController extends Controller
 
             return response()->json(['message' => 'Product added to cart successfully']);
         } catch (\Exception $e) {
+            Log::error('Error adding to cart: ' . $e->getMessage());
             return response()->json(['error' => 'Error adding to cart: ' . $e->getMessage()], 500);
         }
     }
-
     public function index()
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
-        }
-
-        $cartItems = CartItem::where('user_id', $user->id)->with('product')->get();
-        $total = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
-        });
-
-        return view('v_cart.index', compact('user', 'cartItems', 'total'));
+{
+    $user = Auth::user();
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'You must be logged in to view this page.');
     }
 
+    // Ambil item keranjang untuk user tersebut
+    $cartItems = CartItem::where('user_id', $user->id)->with('product')->get();
+    $total = $cartItems->sum(function ($item) {
+        return $item->product->price * $item->quantity;
+    });
+
+    return view('v_cart.index', compact('user', 'cartItems', 'total'));
+}
+
+    
     public function update(Request $request, $cartItemId)
     {
         try {
             $cartItem = CartItem::findOrFail($cartItemId);
             $cartItem->quantity = $request->input('quantity');
             $cartItem->notes = $request->input('notes', '');
+            $cartItem->size = $request->input('size');
             $cartItem->save();
 
             return redirect()->route('v_cart.index')->with('success', 'Cart item updated successfully.');

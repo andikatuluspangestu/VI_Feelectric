@@ -1,27 +1,31 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 class ProductSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('products')->insert([
-            [
-                'name' => 'Espresso Single',
-                'image' => 'asset/image/espresso-single.png',
-                'short_description' => '100% one shot extract arabica coffee',
-                'detailed_description' => 'Detailed description for Espresso Single...',
-                'price' => 35000,
-                'stock' => 86,
-                'category_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            // Tambahkan produk dummy lainnya di sini
+        Product::create([
+            'name' => 'Espresso Single',
+            'description' => '100% one shot extract arabica coffee',
+            'price' => 35000,
+            'stock' => 50,
+            'category_id' => 1, // Ensure this matches the ID in the categories table
+            'image' => 'image/espresso-single.png',
         ]);
+
+        Product::create([
+            'name' => 'Manual Brew Coffee',
+            'description' => 'Freshly brewed coffee using manual methods',
+            'price' => 45000,
+            'stock' => 30,
+            'category_id' => 2, // Ensure this matches the ID in the categories table
+            'image' => 'image/manual-brew.png',
+        ]);
+
+        // Add more products as needed
     }
 }
