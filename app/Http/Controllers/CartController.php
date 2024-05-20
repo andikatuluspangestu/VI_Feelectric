@@ -74,6 +74,7 @@ class CartController extends Controller
             $cartItem->quantity = $request->input('quantity');
             $cartItem->notes = $request->input('notes', '');
             $cartItem->size = $request->input('size');
+            $cartItem->temperature = $request->input('temperature'); // Add temperature
             $cartItem->save();
 
             return redirect()->route('v_cart.index')->with('success', 'Cart item updated successfully.');
@@ -81,6 +82,7 @@ class CartController extends Controller
             return redirect()->route('v_cart.index')->with('error', 'Error updating cart item: ' . $e->getMessage());
         }
     }
+
 
     public function remove($cartItemId)
     {
