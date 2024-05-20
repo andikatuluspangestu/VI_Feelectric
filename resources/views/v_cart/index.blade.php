@@ -1,6 +1,7 @@
 <!-- resources/views/v_cart/index.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFF7E8;">
         <div class="container">
@@ -49,40 +51,55 @@
         </div>
     </nav>
 
-    <div class="container mt-4 mb-5">
+    <div class="container mt-5 mb-5">
         <div class="row">
             <!-- Cart items on the left -->
             <div class="col-md-8">
                 <h3>Keranjang</h3>
-                <div class="card">
+                <hr>
+                <div class="card p-2 shadow-sm border-0">
                     <ul class="list-group list-group-flush">
-                        @foreach($cartItems as $item)
-                        <li class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('asset/image/beans.jpg') }}" class="img-fluid"
-                                        style="width: 60px; height: 60px; margin-right: 15px;" alt="Espresso Double">
-                                    <div>
-                                        <h5 class="mb-1">{{ $item->quantity }}x {{ $item->product->name }}</h5>
-                                        <p class="mb-1 text-muted">{{ $item->temperature }}, Ukuran {{ $item->size }}</p>
-                                        <p class="mb-0">Catatan: {{ $item->notes }}</p>
-                                    </div>
-                                </div>
-                                <div>
+                        @foreach ($cartItems as $item)
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between">
                                     <div class="d-flex align-items-center">
-                                        <button class="btn btn-outline-secondary btn-sm m-2" data-bs-toggle="modal" data-bs-target="#productModal"><i
-                                                class="fas fa-pencil-alt"></i></button>
-                                        <form action="{{ route('cart.remove', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-outline-danger btn-sm"><i
-                                                    class="fas fa-trash"></i></button>
-                                        </form>
+                                        <img src="{{ asset('asset/image/beans.png') }}" class="rounded img-fluid"
+                                            style="width: 100px; height: 100px; margin-right: 15px;"
+                                            alt="Espresso Double">
+                                        <div>
+                                            <h5 class="mb-1">{{ $item->product->name }}</h5>
+
+                                            {{-- Quantity Badge --}}
+                                            <span class="badge bg-secondary rounded">{{ $item->quantity }}
+                                                Item Dipesan</span>
+
+                                            <span class="badge bg-primary rounded">{{ $item->temperature }}</span>
+
+                                            <span class="badge bg-warning rounded">{{ $item->size }}</span>
+
+                                            <br><br>
+
+                                            <p class="mb-0">Catatan: {{ $item->notes }}</p>
+                                        </div>
                                     </div>
-                                    <div class="text-dark fw-bold mt-2">Rp{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</div>
+                                    <div>
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-secondary btn-sm m-2" data-bs-toggle="modal"
+                                                data-bs-target="#productModal"><i
+                                                    class="fas fa-pencil-alt"></i></button>
+                                            <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger btn-sm"><i
+                                                        class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                        <div class="text-dark fw-bold mt-2">
+                                            Rp{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -90,8 +107,9 @@
 
             <!-- Additional content on the right -->
             <div class="col-md-4">
-                <div class="card-body">
-                    <h5 class="card-title">Pengambilan</h5>
+                <h3 class="card-title ms-3">Pengambilan</h3>
+                <hr>
+                <div class="card p-3 shadow-sm border-0">
                     <div class="mb-3">
                         <label for="pickupType" class="form-label">Minum di Tempat/Bawa Pulang</label>
                         <select class="form-select" id="pickupType">
@@ -114,7 +132,8 @@
                         <p>Biaya kemasan: Rp0</p>
                         <p>Total: Rp{{ number_format($total, 0, ',', '.') }}</p>
                         <div class="d-grid gap-2">
-                            <button class="btn text-light" type="button" style="background-color: #3B2621;">Lanjutkan ke Pembayaran</button>
+                            <button class="btn text-light" type="button" style="background-color: #3B2621;">Lanjutkan
+                                ke Pembayaran</button>
                         </div>
                     </div>
                 </div>
@@ -131,7 +150,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('path_to_your_coffee_image.jpg') }}" alt="Espresso Double" style="width: 60px; height: 60px; margin-right: 15px;">
+                        <img src="{{ asset('path_to_your_coffee_image.jpg') }}" alt="Espresso Double"
+                            style="width: 60px; height: 60px; margin-right: 15px;">
                         <strong>Espresso Double</strong>
                     </div>
                     <div class="row g-3">
@@ -158,9 +178,12 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="fw-bold">Rp35.000</span>
                         <div class="input-group" style="width: 120px;">
-                            <button class="btn btn-outline-secondary" type="button"><i class="fas fa-minus"></i></button>
-                            <input type="text" class="form-control text-center" value="1" aria-label="Quantity">
-                            <button class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
+                            <button class="btn btn-outline-secondary" type="button"><i
+                                    class="fas fa-minus"></i></button>
+                            <input type="text" class="form-control text-center" value="1"
+                                aria-label="Quantity">
+                            <button class="btn btn-outline-secondary" type="button"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -177,7 +200,8 @@
             <div class="row" style="padding-left: 90px;">
                 <div class="col-md-4 px-5">
                     <div class="footer-logo">
-                        <img src="{{ asset('asset/image/Logofooter.png') }}" alt="feelectric Logo" class="img-fluid">
+                        <img src="{{ asset('asset/image/Logofooter.png') }}" alt="feelectric Logo"
+                            class="img-fluid">
                         <p>A combination of Indonesia's authentic coffee with electric bicycle.</p>
                     </div>
                 </div>
@@ -198,4 +222,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
