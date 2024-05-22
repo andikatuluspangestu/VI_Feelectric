@@ -58,8 +58,6 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Menu added successfully!');
     }
 
-    
-
     public function destroy(Menu $menu)
     {
         $menu->delete();
