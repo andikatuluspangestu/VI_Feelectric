@@ -63,8 +63,8 @@
         </div>
       </div>
 
-  <!-- card kopi & mesin kopi -->
-  <div class="container my-5">
+<!-- card kopi & mesin kopi -->
+<div class="container my-5">
         <h1>Coffe Beans</h1>
         <!-- First row of product cards -->
         <div class="row row-cols-1 row-cols-md-4 g-4" id="productContainer1"></div>

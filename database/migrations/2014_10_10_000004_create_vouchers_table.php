@@ -10,10 +10,10 @@ class CreateVouchersTable extends Migration
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->string('description')->nullable();
-            $table->decimal('discount_percentage', 5, 2)->default(0);
-            $table->timestamp('valid_from')->nullable();
-            $table->timestamp('valid_until')->nullable();
+            $table->string('description');
+            $table->decimal('discount', 8, 2);
+            $table->decimal('min_purchase', 8, 2);
+            $table->date('expiry_date');
             $table->timestamps();
         });
     }

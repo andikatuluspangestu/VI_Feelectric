@@ -46,7 +46,7 @@ class RegisterController extends Controller
         
         if ($user) {
             Auth::login($user, true); // menggunakan true untuk "remember me"
-            return redirect()->route('v_home.index');
+            return redirect()->route('v_user.index');
         }
         
 

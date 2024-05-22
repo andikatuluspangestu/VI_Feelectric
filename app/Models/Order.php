@@ -4,15 +4,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Voucher extends Model
+class Order extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
-        'code', 
-        'description', 
-        'discount', 
-        'min_purchase', 
-        'expiry_date'
+        'user_id',
+        'pickup_type',
+        'pickup_time',
+        'subtotal',
+        'packaging_fee',
+        'total'
     ];
 }

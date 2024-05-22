@@ -1,12 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -21,26 +22,23 @@ class CartController extends Controller
 
             if ($cartItem) {
                 // Jika item sudah ada di keranjang, tambahkan kuantitas
-                $cartItem->quantity    += $request->input('quantity', 1);
-                $cartItem->notes        = $request->input('notes', '');
-                $cartItem->size         = $request->input('size');
-                $cartItem->temperature  = $request->input('temperature');
+                $cartItem->quantity += $request->input('quantity', 1);
+                $cartItem->notes = $request->input('notes', '');
+                $cartItem->size = $request->input('size');
+                $cartItem->temperature = $request->input('temperature');
 
                 // Simpan perubahan
                 $cartItem->save();
             } else {
                 // Jika item belum ada di keranjang, buat baru
                 CartItem::create([
-                    'user_id'       => Auth::id(),
-                    'product_id'    => $productId,
-                    'size'          => $request->input('size'),
-                    'temperature'   => $request->input('temperature'),
-                    'quantity'      => $request->input('quantity', 1),
-                    'notes'         => $request->input('notes', ''),
+                    'user_id' => Auth::id(),
+                    'product_id' => $productId,
+                    'size' => $request->input('size'),
+                    'temperature' => $request->input('temperature'),
+                    'quantity' => $request->input('quantity', 1),
+                    'notes' => $request->input('notes', ''),
                 ]);
-
-                // Simpan perubahan
-                $cartItem->save();
             }
 
             return response()->json(['message' => 'Product added to cart successfully']);
@@ -50,6 +48,7 @@ class CartController extends Controller
         }
     }
 
+  
     public function index()
     {
         $user = Auth::user();
@@ -63,8 +62,20 @@ class CartController extends Controller
             return $item->product->price * $item->quantity;
         });
 
-        return view('v_cart.index', compact('user', 'cartItems', 'total'));
+        $discount = 0;
+        if (Session::has('voucher')) {
+            $voucher = Session::get('voucher');
+            if ($total >= $voucher['min_purchase']) {
+                $discount = $total * ($voucher['discount_percentage'] / 100);
+            }
+        }
+
+        $finalTotal = $total - $discount;
+
+        return view('v_cart.index', compact('user', 'cartItems', 'total', 'discount', 'finalTotal'));
     }
+
+
 
 
     public function update(Request $request, $cartItemId)
@@ -82,7 +93,6 @@ class CartController extends Controller
             return redirect()->route('v_cart.index')->with('error', 'Error updating cart item: ' . $e->getMessage());
         }
     }
-
 
     public function remove($cartItemId)
     {

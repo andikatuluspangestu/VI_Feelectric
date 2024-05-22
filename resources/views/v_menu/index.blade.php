@@ -65,7 +65,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto fw-semibold gap-4">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Menu</a>
+                    <a class="nav-link active" aria-current="page" href="{{route('v_menu.index')}}">Menu</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Pesan Antar</a>
@@ -80,7 +80,13 @@
             <div class="d-flex align-items-center">
                 <a style="color: #3B2621;" href="#"><i class="fas fa-shopping-cart profile-icon me-2"></i></a>
                 <a style="color: #3B2621;" href="#"><i class="fas fa-user-circle profile-icon"></i></a>
-                <span class="profile-name ms-2">{{ Auth::user()->name }}</span>
+                <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="d-flex align-items-center profile-link">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="d-flex align-items-center profile-link">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <span class="profile-name ms-2">{{ $user->name }}</span>
+            </a>
+            </a>
             </div>
         </div>
     </div>

@@ -37,4 +37,5 @@ class CreateUsersTable extends Migration
     {
         Schema::dropIfExists('users'); // Drop the table if the migration is rolled back
     }
+    
 }

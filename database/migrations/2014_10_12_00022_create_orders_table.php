@@ -9,17 +9,15 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            
-            $table->integer('quantity');
-            $table->integer('final_price');
-            $table->string('catatan')->nullable();
-            $table->decimal('shipping_cost', 8, 2)->default(0);
-            $table->decimal('discount', 8, 2)->default(0);
-            $table->string('payment_method')->nullable();
-            // $table->string('status')->default('pending'); // pending, paid, shipped, delivered
+            $table->unsignedBigInteger('user_id');
+            $table->enum('pickup_type', ['Minum di Tempat', 'Bawa Pulang']);
+            $table->dateTime('pickup_time');
+            $table->decimal('subtotal', 8, 2);
+            $table->decimal('packaging_fee', 8, 2)->nullable();
+            $table->decimal('total', 8, 2);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

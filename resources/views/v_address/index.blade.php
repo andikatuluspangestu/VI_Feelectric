@@ -40,7 +40,10 @@
         </ul>
         <div class="d-flex align-items-center">
           <i class="fas fa-user-circle profile-icon"></i>
-          <span class="profile-name ms-2">{{ $user->name }}</span>
+          <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="d-flex align-items-center profile-link">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <span class="profile-name ms-2">{{ $user->name }}</span>
+            </a>
       </div>
       </div>
     </div>
@@ -95,7 +98,7 @@
             <a class="nav-link active" aria-current="page" href="{{route('v_address.index')}}">Daftar Alamat</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{route('v_pesanan.index')}}">Pesanan</a>
+            <a class="nav-link active" aria-current="page" href="{{route('v_order.index')}}">Pesanan</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{route('v_voucher.index')}}">Voucher</a>

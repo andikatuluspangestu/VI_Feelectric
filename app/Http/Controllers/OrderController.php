@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pesanan;
+use App\Models\Menu;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Tambahkan ini untuk menggunakan fasilitas Auth
 
@@ -40,5 +42,14 @@ class PesananController extends Controller
 
         // Menambahkan variabel 'user' ke dalam view
         return view('v_pesanan.show', compact('user', 'pesanan'));
+    }
+
+    public function showmenu()
+    {
+      
+        $user = Auth::user();
+        $menus = Menu::all(); // Mengambil semua data menu
+       
+        return view('menu.showmenu', compact('menus'));
     }
 }

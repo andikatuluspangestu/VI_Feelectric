@@ -1,4 +1,3 @@
-<!-- resources/views/v_cart/index.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +7,7 @@
     <title>Keranjang Belanja</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/18b04d2726.js" crossorigin="anonymous"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .img-fluid {
             object-fit: cover;
@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto fw-semibold gap-4">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Menu</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route ('v_menu.index')}}">Menu</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Pesan Antar</a>
@@ -44,8 +44,10 @@
                     <!-- Shopping cart icon -->
                     <a style="color: #3B2621;" href="#"><i class="fas fa-shopping-cart profile-icon me-2"></i></a>
                     <!-- Profile icon and name -->
-                    <a style="color: #3B2621;" href="#"><i class="fas fa-user-circle profile-icon"></i></a>
-                    <span class="profile-name ms-2">{{ Auth::user()->name }}</span>
+                    <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="d-flex align-items-center profile-link">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <span class="profile-name ms-2">{{ $user->name }}</span>
+            </a>
                 </div>
             </div>
         </div>
@@ -128,9 +130,8 @@
                     <div class="mb-3">
                         <label for="pickupTime" class="form-label">Tanggal dan Jam Pengambilan</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="pickupTime" value="04/03/2024 - 18:00">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
-                                    class="fas fa-calendar-alt"></i></button>
+                        <input type="datetime-local" class="form-control" id="pickupTime" name="pickup_time" value="2024-05-21T18:00">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"></button>
                         </div>
                     </div>
 
@@ -140,9 +141,14 @@
                         <p>Biaya kemasan: Rp0</p>
                         <p>Total: Rp{{ number_format($total, 0, ',', '.') }}</p>
                         <div class="d-grid gap-2">
-                            <button class="btn text-light" type="button"
-                                style="background-color: #3B2621;">Lanjutkan
-                                ke Pembayaran</button>
+                            <form id="checkoutForm">
+                                <input type="hidden" name="pickup_type" id="pickupTypeInput">
+                                <input type="hidden" name="pickup_time" id="pickupTimeInput">
+                                <input type="hidden" name="subtotal" value="{{ $total }}">
+                                <input type="hidden" name="packaging_fee" value="0">
+                                <input type="hidden" name="total" value="{{ $total }}">
+                                <button class="btn text-light" type="button" style="background-color: #3B2621;" id="checkoutButton">Lanjutkan ke Pembayaran</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -151,8 +157,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -165,7 +170,6 @@
                     <div class="modal-body">
                         <input type="hidden" id="product-id" name="id">
                         <div class="d-flex align-items-center mb-3">
-                            {{-- image --}}
                             <img src="{{ asset('asset/image/beans.png') }}" class="rounded img-fluid"
                                 style="width: 100px; height: 100px; margin-right: 15px;" alt="Espresso Double">
                             <strong>
@@ -191,19 +195,18 @@
                         </div>
                         <div class="mb-3">
                             <label for="notes" class="form-label">Catatan</label>
-                            <textarea class="form-control" id="notes" name="notes">{{ $item->notes }}</textarea>
+                            <textarea class="form-control" id="notes" name="notes"></textarea>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold"></span>
                             <div class="input-group" style="width: 120px;">
                                 <button class="btn btn-outline-secondary btn-minus" type="button"><i
                                         class="fas fa-minus"></i></button>
-                                <input type="text" class="form-control text-center" id="quantity"
-                                    name="quantity" value="1" aria-label="Quantity">
+                                <input type="text" class="form-control text-center" id="quantity" name="quantity"
+                                    value="1" aria-label="Quantity">
                                 <button class="btn btn-outline-secondary btn-plus" type="button"><i
                                         class="fas fa-plus"></i></button>
                             </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -213,7 +216,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Footer -->
     <footer class="footer text-white p-3" style="background-color: #001804;">
@@ -274,7 +276,6 @@
 
                 // Reset the form
                 form.reset();
-
             });
         });
     </script>
@@ -301,10 +302,38 @@
                     input.value = value + 1;
                 });
             });
+
+            document.getElementById('checkoutButton').addEventListener('click', function() {
+    const pickupType = document.getElementById('pickupType').value;
+    const pickupTime = document.getElementById('pickupTime').value;
+
+    document.getElementById('pickupTypeInput').value = pickupType;
+    document.getElementById('pickupTimeInput').value = pickupTime;
+
+    const formData = new FormData(document.getElementById('checkoutForm'));
+
+    for (var pair of formData.entries()) {
+        console.log(pair[0]+ ': ' + pair[1]); 
+    }
+
+    fetch('/orders', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            window.location.href = '/';  // Redirect to homepage or another page
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
         });
     </script>
-
-
 </body>
 
 </html>

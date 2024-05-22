@@ -32,6 +32,7 @@ class User extends Authenticatable
         'date_of_birth', // Tambahkan atribut tanggal lahir
         'gender', // Tambahkan atribut jenis kelamin
         'phone', // Tambahkan atribut nomor telepon
+        'role',
         
     ];
 

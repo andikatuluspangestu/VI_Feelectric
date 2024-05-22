@@ -9,8 +9,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\VoucherController;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 
 
 /*
@@ -28,6 +27,20 @@ Route::get('/', function () {
     return view('v_home/index');
 });
 
+// Route untuk dashboard admin
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/add-menu', function () {
+        return view('/admin/add_menu');
+    })->name('add.menu');
+    Route::post('/menu/store', [AdminController::class, 'store'])->name('menu.store');
+    Route::delete('/menu/{menu}', [AdminController::class, 'destroy'])->name('menu.destroy');
+    // Dalam routes/web.php
+    Route::get('/menu/{menu}/edit', [AdminController::class, 'edit'])->name('menu.edit');
+    Route::put('/menu/{menu}', [AdminController::class, 'update'])->name('menu.update');
+
+});
+
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -37,10 +50,12 @@ Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name(
 Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 
-
 Route::get('/v_user', [UserController::class, 'index'])->name('v_user.index');
+
 Route::get('/v_user/profile/{id}', [UserController::class, 'show'])->name('user.profile');
+
 Route::get('/v_user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+
 Route::post('/v_user/{id}', [UserController::class, 'update'])->name('user.update');
 
 Route::post('/logout', function () {
@@ -65,34 +80,40 @@ Route::put('/address/{id}', [AddressController::class, 'update'])->name('address
 Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
 
 Route::get('/api/cities/{province_id}', [LocationController::class, 'getCitiesByProvince']);
-Route::get('/api/address-from-coords', [LocationController::class, 'getAddressFromCoords']);
+Route::get('/api/address-from-coords',[LocationController::class, 'getAddressFromCoords']);
 // Dalam file web.php, tambahkan route untuk menampilkan form
 Route::get('/address/create', [LocationController::class, 'showForm'])->name('address.create');
 
 Route::get('/notifications', [NotificationController::class, 'index'])->name('v_notif.index');
-Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('v_notif.show');
+Route::get('/notifications/{id}', [NotificationController::class,'show'])->name('v_notif.show');
+
+
+
 
 Route::get('/pesanans', [PesananController::class, 'index'])->name('v_pesanan.index');
 Route::get('/pesanans/{id}', [PesananController::class, 'show'])->name('v_pesanan.show');
 
+
+
 Route::get('/vouchers', [VoucherController::class, 'index'])->name('v_voucher.index');
 Route::get('/vouchers/{id}', [VoucherController::class, 'show'])->name('v_voucher.show');
+
 
 Route::get('/v_home', function () {
     return view('v_home.index');
 })->name('v_home.index');
 
-Route::get('/v_menu', [MenuController::class, 'index'])->name('v_menu.index');
-Route::get('/menu/{id}', [MenuController::class, 'show'])->name('v_menudetail.detail');
+//mengatur menu
+Route::get('/menu', [PesananController::class, 'showmenu'])->name('menu.showmenu');
+Route::get('/user-menu', function() {
+    return view('v_user.menu');
+})->name('user.menu');
 
-Route::middleware('auth')->group(function () {
-    Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::get('/cart', [CartController::class, 'index'])->name('v_cart.index');
 
-    Route::put('/cart/update/{cartItemId}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/remove/{cartItemId}', [CartController::class, 'remove'])->name('cart.remove');
-});
 
 // Route::get('/v_user', function () {
 //     return view('v_user.index');
 // })->name('v_user.index');
+
+
+

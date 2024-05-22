@@ -38,7 +38,10 @@
                 <div class="d-flex align-items-center">
                     <a style="color: #3B2621;" href="#"><i class="fas fa-shopping-cart profile-icon me-2"></i></a>
                     <a style="color: #3B2621;" href="#"><i class="fas fa-user-circle profile-icon"></i></a>
-                    <span class="profile-name ms-2">{{ $user->name }}</span>
+                    <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="d-flex align-items-center profile-link">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <span class="profile-name ms-2">{{ $user->name }}</span>
+            </a>
                 </div>
             </div>
         </div>

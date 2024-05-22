@@ -1,28 +1,44 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Voucher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Import Auth facade
+use App\Models\Voucher;
+use Illuminate\Support\Facades\Session;
 
 class VoucherController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-        $user = Auth::user(); // Mendapatkan user yang sedang login
-        $vouchers = Voucher::all();
-        return view('v_voucher.index', compact('user', 'vouchers'));
+        $vouchers = Voucher::where('expiry_date', '>=', now())->get();
+        return view('v_voucher.index', compact('vouchers'));
     }
 
-    public function show($id)
+    public function apply(Request $request)
     {
-        $user = Auth::user(); // Tambahkan ini juga jika Anda ingin menampilkan nama di halaman detail
-        $voucher = Voucher::findOrFail($id);
-        return view('v_voucher.show', compact('user', 'voucher'));
+        $voucher = Voucher::where('code', $request->code)->first();
+
+        if (!$voucher) {
+            return response()->json(['message' => 'Kode voucher tidak valid.'], 400);
+        }
+
+        // Cek apakah voucher masih berlaku
+        $currentDate = now();
+        if ($currentDate->greaterThan($voucher->expiry_date)) {
+            return response()->json(['message' => 'Voucher sudah kadaluarsa.'], 400);
+        }
+
+        // Simpan diskon ke sesi
+        Session::put('voucher', [
+            'code' => $voucher->code,
+            'discount_percentage' => $voucher->discount_percentage,
+            'min_purchase' => $voucher->min_purchase
+        ]);
+
+        return response()->json([
+            'message' => 'Voucher berhasil diterapkan.',
+        ]);
     }
 }
+
+
+   
