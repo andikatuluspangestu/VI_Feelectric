@@ -21,42 +21,59 @@ class AdminController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'productName' => 'required',
-            'productDescription' => 'required',
-            'productCategory' => 'required',
-            'variant' => 'required',
-            'priceHot' => 'required|numeric',
-            'priceIce' => 'required|numeric',
-            'productStock' => 'required|integer',
-            'photoHot' => 'image|nullable',
-            'photoIce' => 'image|nullable'
-        ]);
+{
+    $variant = $request->input('variant');
 
-        $menu = new Menu();
-        $menu->name = $request->productName;
-        $menu->description = $request->productDescription;
-        $menu->category = $request->productCategory;
-        $menu->variant = $request->variant;
-        $menu->price_hot = $request->priceHot;
-        $menu->price_ice = $request->priceIce;
-        $menu->stock = $request->productStock;
+    // Tentukan aturan validasi berdasarkan pilihan variant
+    $rules = [
+        'productName' => 'required',
+        'productDescription' => 'required',
+        'productCategory' => 'required',
+        'variant' => 'required',
+        'productStock' => 'required|integer',
+        'photoHot' => 'image|nullable',
+        'photoIce' => 'image|nullable'
+    ];
 
-        if ($request->hasFile('photoHot')) {
-            $path = $request->file('photoHot')->store('public/menus');
-            $menu->photo_hot = $path;
-        }
-
-        if ($request->hasFile('photoIce')) {
-            $path = $request->file('photoIce')->store('public/menus');
-            $menu->photo_ice = $path;
-        }
-
-        $menu->save();
-
-        return redirect()->route('admin.dashboard')->with('success', 'Menu added successfully!');
+    if ($variant === 'hot' || $variant === 'both') {
+        $rules['priceHot'] = 'required|numeric';
     }
+
+    if ($variant === 'ice' || $variant === 'both') {
+        $rules['priceIce'] = 'required|numeric';
+    }
+
+    // Melakukan validasi
+    $request->validate($rules);
+
+    $menu = new Menu();
+    $menu->name = $request->productName;
+    $menu->description = $request->productDescription;
+    $menu->category = $request->productCategory;
+    $menu->variant = $request->variant;
+    $menu->stock = $request->productStock;
+
+    // Menetapkan harga dengan default 0 jika tidak ada nilai yang diisi
+    $menu->price_hot = $request->filled('priceHot') ? $request->priceHot : 0;
+    $menu->price_ice = $request->filled('priceIce') ? $request->priceIce : 0;
+
+    // Menyimpan foto jika ada
+    if ($request->hasFile('photoHot')) {
+        $path = $request->file('photoHot')->store('public/menus');
+        $menu->photo_hot = $path;
+    }
+
+    if ($request->hasFile('photoIce')) {
+        $path = $request->file('photoIce')->store('public/menus');
+        $menu->photo_ice = $path;
+    }
+
+    $menu->save();
+
+    return redirect()->route('admin.dashboard')->with('success', 'Menu added successfully!');
+}
+
+
 
     public function destroy(Menu $menu)
     {
@@ -92,6 +109,10 @@ class AdminController extends Controller
     $menu->price_ice = $request->priceIce;
     $menu->stock = $request->productStock;
 
+    // Menetapkan harga dengan default 0 jika tidak ada nilai yang diisi
+    $menu->price_hot = $request->filled('priceHot') ? $request->priceHot : 0;
+    $menu->price_ice = $request->filled('priceIce') ? $request->priceIce : 0;
+
     if ($request->hasFile('photoHot')) {
         $path = $request->file('photoHot')->store('public/menus');
         $menu->photo_hot = $path;
@@ -106,5 +127,6 @@ class AdminController extends Controller
 
     return redirect()->route('admin.dashboard')->with('success', 'Menu updated successfully!');
 }
+
 
 }

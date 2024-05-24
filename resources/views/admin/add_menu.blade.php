@@ -45,15 +45,15 @@
                 <div class="mb-3">
                     <label class="form-label">Variant</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="variant" id="hot" value="hot" checked>
+                        <input class="form-check-input" type="radio" name="variant" id="hot" value="hot" checked onchange="handleVariantChange()">
                         <label class="form-check-label" for="hot">Hot</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="variant" id="ice" value="ice">
+                        <input class="form-check-input" type="radio" name="variant" id="ice" value="ice" onchange="handleVariantChange()">
                         <label class="form-check-label" for="ice">Ice</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="variant" id="both" value="both">
+                        <input class="form-check-input" type="radio" name="variant" id="both" value="both" onchange="handleVariantChange()">
                         <label class="form-check-label" for="both">Both</label>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col">
                         <label for="priceIce" class="form-label">Price Ice</label>
-                        <input type="text" class="form-control" id="priceIce" name="priceIce" placeholder="IDR 0">
+                        <input type="text" class="form-control" id="priceIce" name="priceIce" placeholder="IDR 0" disabled>
                     </div>
                 </div>
 
@@ -103,6 +103,33 @@
             </div>
         </div>
     </form>
+    <script>
+        function handleVariantChange() {
+            var variant = document.querySelector('input[name="variant"]:checked').value;
+            var priceHotInput = document.getElementById('priceHot');
+            var priceIceInput = document.getElementById('priceIce');
+
+            switch (variant) {
+                case 'hot':
+                    priceHotInput.disabled = false;
+                    priceIceInput.disabled = true;
+                    priceIceInput.value = ''; // Clear value
+                    break;
+                case 'ice':
+                    priceHotInput.disabled = true;
+                    priceHotInput.value = ''; // Clear value
+                    priceIceInput.disabled = false;
+                    break;
+                case 'both':
+                    priceHotInput.disabled = false;
+                    priceIceInput.disabled = false;
+                    break;
+            }
+        }
+
+        // Initialize to set correct state on page load
+        window.onload = handleVariantChange;
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

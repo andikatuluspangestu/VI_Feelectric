@@ -7,17 +7,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Address;
-
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    
+
+    /**
+     * Relasi dengan model Address
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
     }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -33,7 +38,6 @@ class User extends Authenticatable
         'gender', // Tambahkan atribut jenis kelamin
         'phone', // Tambahkan atribut nomor telepon
         'role',
-        
     ];
 
     /**
@@ -53,7 +57,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'date_of_birth' => 'date',
     ];
 
-
+    /**
+     * Set the user's password.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    protected function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="asset/image/favicon.svg" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('assetimage/favicon.svg') }}" type="image/x-icon">
   <title>Feelectric | Coffee + Electric Bicycle</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="asset/css/style.css">
@@ -13,243 +13,188 @@
 </head>
 
 <body>
-<style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-  }
-
-  .navbar-nav .nav-link {
-        color: black !important;  /* Menggunakan !important untuk memastikan bahwa aturan ini memiliki prioritas lebih tinggi */
-    }
-
-  
-  .btnlogout {
-    color: #000;             /* Warna teks hitam */
-    border: 2px solid red;   /* Outline merah */
-    background-color: white; /* Background putih */
-    width: 100%;             /* Lebar penuh */
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-  }
-
-  .btnlogout:hover {
-    color: white;            /* Warna teks putih saat hover */
-    background-color: red; /* Background menjadi gelap saat hover */
-  }
-
-  .btnedit {
-    color: #000;             /* Warna teks hitam */
-    border: 2px solid #3B2621;   /* Outline merah */
-    background-color: white; /* Background putih */
-    width: 100%;             /* Lebar penuh */
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-  }
-
-  .btnedit:hover {
-    color: white;            /* Warna teks putih saat hover */
-    background-color: #3B2621; /* Background menjadi gelap saat hover */
-  }
-</style>
-
-  <!-- navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFF7E8;">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="{{asset('asset/image/loginlogo.png')}}" alt="" style="width: 160px;">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto fw-semibold gap-4">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Menu</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Pesan Antar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Kursus Barista</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Booking Meja</a>
-          </li>
-        </ul>
-        <div class="d-flex align-items-center">
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFF7E8;">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="{{ asset('asset/image/loginlogo.png') }}" alt="" style="width: 160px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto fw-semibold gap-4">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="menu.html">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Pesan Antar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Kursus Barista</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Booking Meja</a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <!-- Shopping cart icon -->
+        <a style="color: #3B2621;" href="keranjang.html"><i class="fas fa-shopping-cart profile-icon me-2"></i></a>
+        <!-- Profile icon and name as a single clickable link -->
+        <a href="bio.html" style="color: #3B2621; text-decoration: none; display: flex; align-items: center;">
           <i class="fas fa-user-circle profile-icon"></i>
-          <span class="profile-name ms-2">{{ $user->name }}</span>
-        </div>
-      </div>
-    </div>
-  </nav>
-  <!-- card 1 -->
-  <div class="main-content">
-    <div class="container-bio d-flex mx-3 my-2">
-      <div class="container-bio1 mx-4 " style="border: 3px solid #3B2621; border-radius: 5px;height: 400px;">
-        <div class="nama d-flex p-2 align-items-center">
-          <img src="{{asset('asset/image/profilebio.png')}}" alt="">
-          <p class="text-start align-items-center p-3">{{ $user->name }}</p>
-        </div>
-        <div class="container-bio1-content p-2">
-          <div class="bebas-ongkir p-2" style="border: 3px solid #3B2621; border-radius: 5px;">
-            <img src="asset/image/Logo.png" alt="">
-            <h4>Nikmatin bebas ongkir tanpa batas</h4>
-            <p>Min. Belanja Rp0, bebas biaya aplikasi</p>
-          </div>
-        </div>
-        <div class="pembayaran p-2">
-          <div class="gopay d-flex align-items-center">
-            <img src="{{asset('asset/image/pembayaran1.png')}}" alt="Gopay">
-            <p class="mb-0 p-2">Gopay</p>
-            <p class="ms-auto mb-0">Aktifkan</p>
-          </div>
-
-          <div class="member d-flex align-items-center">
-            <img src="{{asset('asset/image/pembayaran2.png')}}" alt="Member Card">
-            <p class="mb-0 p-2">Member card</p>
-            <p class="ms-auto mb-0">Aktifkan</p>
-          </div>
-
-          <div class="saldo d-flex align-items-center">
-            <img src="{{asset('asset/image/pembayaran3.png')}}" style="width: 10%;" alt="Saldo">
-            <p class="mb-0 p-2">Saldo</p>
-            <p class="ms-auto mb-0">Rp.0</p>
-          </div>
-        </div>
-      </div>
-      <!-- card 2 -->
-      <div class="container-bio2 mx-2 pb-5" style="border: 3px solid #3B2621; border-radius: 5px;">
-        <!-- navbar 2 -->
-        
-        <style>
-          .navbar-light .navbar-nav .nav-link {
-              color: white !important;
-          }
-        </style>
-
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3B2621">
-          <div class="container-fluid mx-1">
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-              <ul class="navbar-nav justify-content-between text-center" style="width:50%;">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" style="color: #001804;"
-                    href="{{ route('user.profile', ['id' => $user->id]) }}">Biodata Diri</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{{route('v_address.index')}}">Daftar Alamat</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{{route('v_pesanan.index')}}">Pesanan</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{{route('v_voucher.index')}}">Voucher</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{{route('v_notif.index')}}">Notifikasi</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        <!-- foto profile -->
-        <hr>
-        <div class="container-bio d-flex p-2">
-          <div class="col-4 container-foto p-3" style="border: 3px solid #3B2621; border-radius: 5px;">
-            <img src="{{ asset('asset/image/bioimg.png') }}" alt="" class="p-2" style="width: 100%;">
-            <button type="button" class="btn btn-light text-light"
-              style="background-color: #3B2621; width: 100%;">ADD IMAGE</button>
-            <p class="m-2">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG
-              .JPEG .PNG</p>
-          </div>
-          <!-- biodata -->
-          <div class="container">
-            <div class="card-body">
-              <h5 class="card-title">Biodata Diri</h5>
-              <div class="mb-3 row">
-                <label class="col-sm-4 col-form-label">Nama</label>
-                <div class="col-sm-6">
-                  <p class="form-control-plaintext">{{ $user->name }}</p>
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
-                <div class="col-sm-6">
-                  <p class="form-control-plaintext">{{ $user->date_of_birth }}</p>
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
-                <div class="col-sm-6">
-                  <p class="form-control-plaintext">{{ $user->gender }}</p>
-                </div>
-              </div>
-              <br><br>
-              <h5 class="card-title">Ubah Kontak</h5>
-              <div class="mb-3 row">
-                <label class="col-sm-4 col-form-label">Email</label>
-                <div class="col-sm-6">
-                  <p class="form-control-plaintext">{{ $user->email }}</p>
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label class="col-sm-4 col-form-label">No HP</label>
-                <div class="col-sm-6">
-                  <p class="form-control-plaintext">{{ $user->phone }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-            <div class="col-sm-6 text-end">
-              <a href="{{ route('user.edit', ['id' => $user->id]) }}">
-                <button class="btn btn-outline btnedit">
-                  EDIT
-                </button>
-              </a>
-            </div>
-            <div class="col-sm-6 text-end">
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf <!-- CSRF token untuk keamanan -->
-                    <button type="submit" class="btn btn-outline btnlogout">
-                        LOGOUT
-                    </button>
-                </form>
-            </div>
-            </div>
-          </div>
-        </div>
+          <span class="profile-name ms-2">Alexandro</span>
+        </a>
       </div>
     </div>
   </div>
+</nav>
 
-
-  <!-- footer -->
-  <footer class="footer text-white p-3" style="background-color: #001804;">
-    <div class="container">
-      <div class="row" style="padding-left: 90px;">
-        <div class="col-md-4 px-5">
-          <div class="footer-logo">
-            <img src="{{asset('asset/image/Logofooter.png')}}" alt="feelectric Logo" class="img-fluid">
-            <p>A combination of Indonesia's authentic coffee with electric bicycle.</p>
-          </div>
-        </div>
-        <div class="col-md-4 px-5">
-          <h3>Office</h3>
-          <p>Jl. BSD Green Office Park, BSD<br>Kecamatan Tangerang, Banten<br>15345 Indonesia</p>
-        </div>
-        <div class="col-md-4 px-10">
-          <h3>Contact Us</h3>
-          <p><i class="fab fa-whatsapp"></i> +6281388881111<br><i class="fab fa-instagram"></i> info@feelectric.com<br><i
-              class="fa-regular fa-envelope"></i> feelectric@gmail.com</p>
+<!-- card 1 -->
+<div class="main-content">
+  <div class="container-bio d-flex mx-3 my-2" >
+    <div class="container-bio1 mx-4 " style=" background-color: #FFFCF5; border: 1px solid #3B2621; border-radius: 20px; height: 30%;">
+      <div class="nama d-flex p-2 align-items-center">
+        <img src="{{ asset('assetimage/profilebio.png') }}" alt="">
+        <p class="text-start align-items-center p-3">Alexandro</p>
+      </div>
+      <div class="container-bio1-content p-2">
+        <div class="bebas-ongkir p-2" style="background-color: #FCEAE3; border-radius: 20px;">
+          <img src="{{ asset('assetimage/Logo.png') }}" alt="">
+          <h4>Nikmatin bebas ongkir tanpa batas</h4>
+          <p>Min. Belanja Rp0, bebas biaya aplikasi</p>
         </div>
       </div>
-    </div>
-    <hr class="my-4">
-    <p class="text-center">©2024 feelectric. All Rights Reserved.</p>
-  </footer>
+      <div class="pembayaran p-2 row-gap-4">
+        <div class="gopay d-flex align-items-center py-2">
+            <img src="{{ asset('assetimage/pembayaran1.png') }}" alt="Gopay">
+            <p class="mb-0">Gopay</p>
+            <p class="ms-auto mb-0">Aktifkan</p>
+        </div>
 
+        <div class="member d-flex align-items-center py-2">
+            <img src="{{ asset('assetimage/pembayaran2.png') }}" alt="Member Card">
+            <p class="mb-0">Member card</p>
+            <p class="ms-auto mb-0">Aktifkan</p>
+        </div>
+
+        <div class="saldo d-flex align-items-center py-2">
+            <img src="{{ asset('assetimage/pembayaran3.png') }}" alt="Saldo">
+            <p class="mb-0">Saldo</p>
+            <p class="ms-auto mb-0">Rp.0</p>
+        </div>
+    </div>
+    </div>
+  <!-- card 2 -->
+    <div class="container-bio2 mx-2 pb-5" style="background-color: #FFFCF5; border: 1px solid #3B2621; border-radius: 20px;">
+    <!-- navbar 2 -->
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid mx-1">
+          <div class="collapse navbar-collapse " id="navbarNav">
+            <ul class="navbar-nav justify-content-between " style="width:800px;">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" style="color: #001804;" href="bio.html">Biodata Diri</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="addres.html">Daftar Alamat</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="pesanan.html">Pesanan</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="voucher.html">Voucher</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="notification.html">Notifikasi</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+  <!-- foto profile -->
+      <hr>
+      <div class="container d-flex">
+      <div class="container-bio py-2 align-items-center" >
+        <div class="container-foto mx-2 my-2 p-1 d-flex justify-content-center" style=" height: 100%;">
+          <img src="{{ asset('assetimage/bioimg.png') }}" alt="" class="p-2 mx-2" style="width: 250px; height: auto;">
+        </div>
+      </div>
+  <!-- biodata -->
+        <div class="container">
+          <div class="card-body">
+            <h5 class="card-title">Ubah Biodata Diri</h5>
+            <div class=" row">
+              <label class="col-sm-4 col-form-label">Nama</label>
+              <div class="col-sm-6">
+                <p class="form-control-plaintext">Alexandro Nicholas</p>
+              </div>
+
+            </div>
+            <div class="row">
+              <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
+              <div class="col-sm-6">
+                <p class="form-control-plaintext">9 Januari 2002</p>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
+              <div class="col-sm-6">
+                <p class="form-control-plaintext">Pria</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Ubah Kontak</h5>
+            <div class="row">
+              <label class="col-sm-4 col-form-label">Email</label>
+              <div class="col-sm-6">
+                <p class="form-control-plaintext">alexandro@gmail.com</p>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label class="col-sm-4 col-form-label">No HP</label>
+              <div class="col-sm-6">
+                <p class="form-control-plaintext">085829384738</p>
+              </div>
+            </div>
+          </div>
+          <div class="button-ubah d-flex">
+          <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="mx-auto" style="width: 45%; text-decoration: none;">
+                <button class="btn btn-custom text-light rounded" style="background-color: #3B2621; border: none; width: 100%;">
+                    Ubah biodata
+                </button>
+            </a>
+        </div>
+        </div> .
+      </div> 
+      </div>
+    </div>
+  </div> 
+<!-- footer -->  
+<footer class="footer text-white p-3" style="background-color: #001804;">
+  <div class="container">
+      <div class="row" style="padding-left: 90px;">
+          <div class="col-md-4 px-5">
+              <div class="footer-logo">
+                  <img src="{{ asset('assetimage/Logofooter.png') }}" alt="feelectric Logo" class="img-fluid">
+                  <p>A combination of Indonesia's authentic coffee with electric bicycle.</p>
+              </div>
+          </div>
+          <div class="col-md-4 px-5">
+              <h3>Office</h3>
+              <p>Jl. BSD Green Office Park, BSD<br>Kecamatan Tangerang, Banten<br>15345 Indonesia</p>
+          </div>
+          <div class="col-md-4 px-10">
+              <h3>Contact Us</h3>
+              <p><i class="fab fa-whatsapp"></i> +6281388881111<br><i class="fab fa-instagram"></i> info@feelectric.com<br><i class="fa-regular fa-envelope"></i> feelectric@gmail.com</p>
+          </div>
+      </div>
+  </div>
+  <hr class="my-4">
+  <p class="text-center">©2024 feelectric. All Rights Reserved.</p>
+</footer>
+    
 
 </body>
 

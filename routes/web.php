@@ -10,6 +10,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MenuController;
 
 
 /*
@@ -51,11 +52,8 @@ Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallb
 
 
 Route::get('/v_user', [UserController::class, 'index'])->name('v_user.index');
-
 Route::get('/v_user/profile/{id}', [UserController::class, 'show'])->name('user.profile');
-
 Route::get('/v_user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-
 Route::post('/v_user/{id}', [UserController::class, 'update'])->name('user.update');
 
 Route::post('/logout', function () {
@@ -87,9 +85,6 @@ Route::get('/address/create', [LocationController::class, 'showForm'])->name('ad
 Route::get('/notifications', [NotificationController::class, 'index'])->name('v_notif.index');
 Route::get('/notifications/{id}', [NotificationController::class,'show'])->name('v_notif.show');
 
-
-
-
 Route::get('/pesanans', [PesananController::class, 'index'])->name('v_pesanan.index');
 Route::get('/pesanans/{id}', [PesananController::class, 'show'])->name('v_pesanan.show');
 
@@ -103,17 +98,14 @@ Route::get('/v_home', function () {
     return view('v_home.index');
 })->name('v_home.index');
 
-//mengatur menu
-Route::get('/menu', [PesananController::class, 'showmenu'])->name('menu.showmenu');
-Route::get('/user-menu', function() {
-    return view('v_user.menu');
-})->name('user.menu');
+// //mengatur menu
+// Route::get('/menu', [PesananController::class, 'showmenu'])->name('menu.showmenu');
+// Route::get('/user-menu', function() {
+//     return view('v_user.menu');
+// })->name('user.menu');
 
-
-
-// Route::get('/v_user', function () {
-//     return view('v_user.index');
-// })->name('v_user.index');
+// Route untuk menu di halaman user
+Route::get('/menu', [MenuController::class, 'index'])->name('v_menu.index');
 
 
 

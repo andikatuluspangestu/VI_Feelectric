@@ -91,7 +91,7 @@
                         @foreach ($menus as $menu)
                         <div class="col-md-4 col-sm-6 mb-4">
                             <div class="card h-100">
-                            <img src="{{ asset('storage/' . $menu->photo_hot) }}" class="card-img-top" alt="Product Image">
+                            <img src="{{ asset('storage/' . substr($menu->photo_hot, 7)) }}" class="card-img-top" alt="Product Image">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $menu->name }}</h5>
                                     <p class="card-text">{{ $menu->description }}</p>

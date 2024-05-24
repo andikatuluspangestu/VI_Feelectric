@@ -121,16 +121,23 @@
 <div class="container mt-5">
     <h2 class="mb-4">Ordinary Coffee</h2>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-        @foreach ($products as $product)
+        @foreach ($menus as $menu)
         <div class="col">
             <div class="card product-card" style="color: #3B2621;">
-                <img src="{{ asset('asset/image/beans.png')}}" class="card-img-top" alt="{{ $product->name }}">
+                <img src="{{ asset($menu->photo_hot)}}" class="card-img-top" alt="{{ $menu->name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $product->name }}</h5>
-                    <p class="card-text">{{ $product->description }}</p>
+                    <h5 class="card-title">{{ $menu->name }}</h5>
+                    <p class="card-text">{{ $menu->description }}</p>
                     <div class="price-button">
-                        <p class="card-price fw-bold mb-0">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
-                        <a href="{{ route('v_menudetail.detail', $product->id) }}" class="btn text-light" style="background-color: #3B2621;">Pesan</a>
+                        @if($menu->variant == 'both')
+                            <p class="card-price fw-bold mb-0">Hot: Rp{{ number_format($menu->price_hot, 0, ',', '.') }}</p>
+                            <p class="card-price fw-bold mb-0">Ice: Rp{{ number_format($menu->price_ice, 0, ',', '.') }}</p>
+                        @elseif($menu->variant == 'hot')
+                            <p class="card-price fw-bold mb-0">Rp{{ number_format($menu->price_hot, 0, ',', '.') }}</p>
+                        @elseif($menu->variant == 'ice')
+                            <p class="card-price fw-bold mb-0">Rp{{ number_format($menu->price_ice, 0, ',', '.') }}</p>
+                        @endif
+                        <a href="{{ route ('v_menudetail.detail')}}" class="btn text-light" style="background-color: #3B2621;">Pesan</a>
                     </div>
                 </div>
             </div>

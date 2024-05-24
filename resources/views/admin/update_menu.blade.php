@@ -36,31 +36,33 @@
             </div>
             <!-- Variant -->
             <div class="mb-3">
-                <label class="form-label">Variant</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="variant" id="hot" value="hot" {{ $menu->variant == 'hot' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="hot">Hot</label>
+                    <label class="form-label">Variant</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="variant" id="hot" value="hot" {{ $menu->variant == 'hot' ? 'checked' : '' }} onchange="handleVariantChange()">
+                        <label class="form-check-label" for="hot">Hot</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="variant" id="ice" value="ice" {{ $menu->variant == 'ice' ? 'checked' : '' }} onchange="handleVariantChange()">
+                        <label class="form-check-label" for="ice">Ice</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="variant" id="both" value="both" {{ $menu->variant == 'both' ? 'checked' : '' }} onchange="handleVariantChange()">
+                        <label class="form-check-label" for="both">Both</label>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="variant" id="ice" value="ice" {{ $menu->variant == 'ice' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="ice">Ice</label>
+
+                <!-- Price Hot and Ice -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="priceHot" class="form-label">Price Hot</label>
+                        <input type="text" class="form-control" id="priceHot" name="priceHot" placeholder="IDR 0" value="{{ $menu->price_hot }}">
+                    </div>
+                    <div class="col">
+                        <label for="priceIce" class="form-label">Price Ice</label>
+                        <input type="text" class="form-control" id="priceIce" name="priceIce" placeholder="IDR 0" value="{{ $menu->price_ice }}">
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="variant" id="both" value="both" {{ $menu->variant == 'both' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="both">Both</label>
-                </div>
-            </div>
-            <!-- Price Hot and Ice -->
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="priceHot" class="form-label">Price Hot</label>
-                    <input type="text" class="form-control" id="priceHot" name="priceHot" placeholder="IDR 0" value="{{ $menu->price_hot }}">
-                </div>
-                <div class="col">
-                    <label for="priceIce" class="form-label">Price Ice</label>
-                    <input type="text" class="form-control" id="priceIce" name="priceIce" placeholder="IDR 0" value="{{ $menu->price_ice }}">
-                </div>
-            </div>
+
             <!-- Product Stock -->
             <div class="mb-3">
                 <label for="productStock" class="form-label">Product Stock</label>
@@ -90,6 +92,39 @@
                 <button class="btn btn-primary" type="submit">Update</button>
             </div>
         </div>
+        <!-- Script to handle the variant changes -->
+        <script>
+                    function handleVariantChange() {
+                        var variant = document.querySelector('input[name="variant"]:checked').value;
+                        var priceHotInput = document.getElementById('priceHot');
+                        var priceIceInput = document.getElementById('priceIce');
+
+                        switch (variant) {
+                            case 'hot':
+                                priceHotInput.disabled = false;
+                                priceIceInput.disabled = true;
+                                priceIceInput.value = ''; // Clear value
+                                break;
+                            case 'ice':
+                                priceHotInput.disabled = true;
+                                priceHotInput.value = ''; // Clear value
+                                priceIceInput.disabled = false;
+                                break;
+                            case 'both':
+                                priceHotInput.disabled = false;
+                                priceIceInput.disabled = false;
+                                break;
+                        }
+                    }
+
+                    // Initialize to set correct state on page load based on existing variant value
+                    document.addEventListener('DOMContentLoaded', function() {
+                        handleVariantChange();
+                    });
+                </script>
+
+                <!-- Remaining form content and script for Bootstrap -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </div>
 </form>
 </body>
