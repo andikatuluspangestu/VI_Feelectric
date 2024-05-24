@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="{{ asset('assetimage/favicon.svg') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="image/favicon.svg" type="image/x-icon">
   <title>Feelectric | Coffee + Electric Bicycle</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="asset/css/style.css">
+  <link rel="stylesheet" href="style.css">
   <script src="https://kit.fontawesome.com/18b04d2726.js" crossorigin="anonymous"></script>
-  <script src="asset/js/index.js"></script>
+  <script src="index.js"></script>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFF7E8;">
   <div class="container">
     <a class="navbar-brand" href="index.html">
-      <img src="{{ asset('asset/image/loginlogo.png') }}" alt="" style="width: 160px;">
+      <img src="image/loginlogo.png" alt="" style="width: 160px;">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@
         <!-- Profile icon and name as a single clickable link -->
         <a href="bio.html" style="color: #3B2621; text-decoration: none; display: flex; align-items: center;">
           <i class="fas fa-user-circle profile-icon"></i>
-          <span class="profile-name ms-2">Alexandro</span>
+          <span class="profile-name ms-2">{{ $user->name }}</span>
         </a>
       </div>
     </div>
@@ -56,31 +56,31 @@
   <div class="container-bio d-flex mx-3 my-2" >
     <div class="container-bio1 mx-4 " style=" background-color: #FFFCF5; border: 1px solid #3B2621; border-radius: 20px; height: 30%;">
       <div class="nama d-flex p-2 align-items-center">
-        <img src="{{ asset('assetimage/profilebio.png') }}" alt="">
-        <p class="text-start align-items-center p-3">Alexandro</p>
+        <img src="image/profilebio.png" alt="">
+        <p class="text-start align-items-center p-3">{{ $user->name }}</p>
       </div>
       <div class="container-bio1-content p-2">
         <div class="bebas-ongkir p-2" style="background-color: #FCEAE3; border-radius: 20px;">
-          <img src="{{ asset('assetimage/Logo.png') }}" alt="">
+          <img src="image/Logo.png" alt="">
           <h4>Nikmatin bebas ongkir tanpa batas</h4>
           <p>Min. Belanja Rp0, bebas biaya aplikasi</p>
         </div>
       </div>
       <div class="pembayaran p-2 row-gap-4">
         <div class="gopay d-flex align-items-center py-2">
-            <img src="{{ asset('assetimage/pembayaran1.png') }}" alt="Gopay">
+            <img src="image/pembayaran1.png" alt="Gopay">
             <p class="mb-0">Gopay</p>
             <p class="ms-auto mb-0">Aktifkan</p>
         </div>
 
         <div class="member d-flex align-items-center py-2">
-            <img src="{{ asset('assetimage/pembayaran2.png') }}" alt="Member Card">
+            <img src="image/pembayaran2.png" alt="Member Card">
             <p class="mb-0">Member card</p>
             <p class="ms-auto mb-0">Aktifkan</p>
         </div>
 
         <div class="saldo d-flex align-items-center py-2">
-            <img src="{{ asset('assetimage/pembayaran3.png') }}" alt="Saldo">
+            <img src="image/pembayaran3.png" alt="Saldo">
             <p class="mb-0">Saldo</p>
             <p class="ms-auto mb-0">Rp.0</p>
         </div>
@@ -94,7 +94,7 @@
           <div class="collapse navbar-collapse " id="navbarNav">
             <ul class="navbar-nav justify-content-between " style="width:800px;">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" style="color: #001804;" href="bio.html">Biodata Diri</a>
+                <a class="nav-link active" aria-current="page" style="color: #001804;" href="{{ route('user.profile', ['id' => $user->id]) }}">Biodata Diri</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="addres.html">Daftar Alamat</a>
@@ -117,7 +117,7 @@
       <div class="container d-flex">
       <div class="container-bio py-2 align-items-center" >
         <div class="container-foto mx-2 my-2 p-1 d-flex justify-content-center" style=" height: 100%;">
-          <img src="{{ asset('assetimage/bioimg.png') }}" alt="" class="p-2 mx-2" style="width: 250px; height: auto;">
+          <img src="image/bioimg.png" alt="" class="p-2 mx-2" style="width: 250px; height: auto;">
         </div>
       </div>
   <!-- biodata -->
@@ -127,20 +127,20 @@
             <div class=" row">
               <label class="col-sm-4 col-form-label">Nama</label>
               <div class="col-sm-6">
-                <p class="form-control-plaintext">Alexandro Nicholas</p>
+                <p class="form-control-plaintext">{{ $user->name }}</p>
               </div>
 
             </div>
             <div class="row">
               <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
               <div class="col-sm-6">
-                <p class="form-control-plaintext">9 Januari 2002</p>
+                <p class="form-control-plaintext">{{ $user->date_of_birth }}</p>
               </div>
             </div>
             <div class="row">
               <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
               <div class="col-sm-6">
-                <p class="form-control-plaintext">Pria</p>
+                <p class="form-control-plaintext">{{ $user->gender }}</p>
               </div>
             </div>
           </div>
@@ -149,23 +149,24 @@
             <div class="row">
               <label class="col-sm-4 col-form-label">Email</label>
               <div class="col-sm-6">
-                <p class="form-control-plaintext">alexandro@gmail.com</p>
+                <p class="form-control-plaintext">{{ $user->email }}</p>
               </div>
             </div>
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label">No HP</label>
               <div class="col-sm-6">
-                <p class="form-control-plaintext">085829384738</p>
+                <p class="form-control-plaintext">{{ $user->phone }}</p>
               </div>
             </div>
           </div>
           <div class="button-ubah d-flex">
-          <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="mx-auto" style="width: 45%; text-decoration: none;">
+            <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="mx-auto" style="width: 45%; text-decoration: none;">
                 <button class="btn btn-custom text-light rounded" style="background-color: #3B2621; border: none; width: 100%;">
                     Ubah biodata
                 </button>
             </a>
         </div>
+        
         </div> .
       </div> 
       </div>
@@ -177,7 +178,7 @@
       <div class="row" style="padding-left: 90px;">
           <div class="col-md-4 px-5">
               <div class="footer-logo">
-                  <img src="{{ asset('assetimage/Logofooter.png') }}" alt="feelectric Logo" class="img-fluid">
+                  <img src="image/Logofooter.png" alt="feelectric Logo" class="img-fluid">
                   <p>A combination of Indonesia's authentic coffee with electric bicycle.</p>
               </div>
           </div>

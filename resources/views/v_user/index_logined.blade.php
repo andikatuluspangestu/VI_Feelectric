@@ -29,7 +29,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto fw-normal gap-4">
               <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{{ route('v_menu.index') }}">Menu</a>
+                <a class="nav-link active" aria-current="page" href="{{route('v_menu.index')}}">Menu</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="#">Pesan Antar</a>
@@ -45,8 +45,6 @@
                 <i class="fas fa-user-circle profile-icon"></i>
                 <span class="profile-name ms-2">{{ $user->name }}</span>
             </a>
-
-
           </div>
         </div>
     </nav>
