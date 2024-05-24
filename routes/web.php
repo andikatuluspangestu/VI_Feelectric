@@ -106,6 +106,7 @@ Route::get('/v_home', function () {
 
 // Route untuk menu di halaman user
 Route::get('/menu', [MenuController::class, 'index'])->name('v_menu.index');
+Route::get('/menu/{id}', [MenuController::class, 'show'])->name('v_menudetail.detail');
 
 
 

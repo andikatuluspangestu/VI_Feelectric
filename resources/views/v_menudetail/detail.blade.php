@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $product->name }}</title>
+    <title>{{ $menu->name }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -50,16 +50,16 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ asset('asset/image/beans.png') }}" alt="{{ $product->name }}" class="img-fluid"
+                <img src="{{ asset('asset/image/beans.png') }}" alt="{{ $menu->name }}" class="img-fluid"
                     style="width: 500px;">
                 <div class="d-flex mt-3">
                     <!-- Thumbnail images here -->
                 </div>
             </div>
             <div class="col-md-6">
-                <h2>{{ $product->name }}</h2>
-                <p class="text-muted">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
-                <p>{{ $product->detailed_description }}</p>
+                <h2>{{ $menu->name }}</h2>
+                <p class="text-muted">Rp{{ number_format($menu->price, 0, ',', '.') }}</p>
+                <p>{{ $menu->detailed_description }}</p>
                 <p><strong>Temperature</strong></p>
                 <select class="form-select mb-3" name="temperature">
                     <option selected>Pilih Temperature</option>
@@ -76,10 +76,10 @@
 
                 <p><strong>Catatan</strong></p>
                 <textarea class="form-control mb-3" rows="3" placeholder="Tambahkan catatan"></textarea>
-                <p><strong>{{ $product->stock }} in stock</strong></p>
+                <p><strong>{{ $menu->stock }} in stock</strong></p>
                 <div class="d-flex mb-3">
                     <input type="number" class="form-control w-auto me-2" value="1">
-                    <button class="btn btn-dark" onclick="addToCart({{ $product->id }})">Tambah Ke Keranjang</button>
+                    <button class="btn btn-dark" onclick="addToCart({{ $menu->id }})">Tambah Ke Keranjang</button>
                 </div>
             </div>
         </div>
@@ -89,12 +89,12 @@
         <div class="text">
             <div class="card-body">
                 <h5 class="card-title">Deskripsi</h5>
-                <p class="card-text">{{ $product->description }}</p>
+                <p class="card-text">{{ $menu->description }}</p>
             </div>
         </div>
     </div>
 
-    <div class="container mt-4 mb-4">
+    <!-- <div class="container mt-4 mb-4">
         <h2 class="mb-3">Produk Terkait</h2>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             @foreach ($relatedProducts as $relatedProduct)
@@ -110,7 +110,7 @@
                 </div>
             @endforeach
         </div>
-    </div>
+    </div> -->
 
     <!-- footer -->
     <footer class="footer text-white p-3" style="background-color: #001804;">

@@ -20,4 +20,11 @@ class MenuController extends Controller
         $menus = Menu::all();
         return view('v_menu.index', compact('menus','user'));
     }
+
+    public function show($id)
+    {
+        $user = Auth::user();
+        $menu = Menu::findOrFail($id); // Mengambil menu berdasarkan ID atau mengembalikan 404 jika tidak ditemukan
+        return view('v_menudetail.detail', compact('menu','user')); // Mengirim data menu ke view 'menu.detail'
+    }
 }

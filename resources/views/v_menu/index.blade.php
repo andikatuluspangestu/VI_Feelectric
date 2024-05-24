@@ -137,7 +137,7 @@
                         @elseif($menu->variant == 'ice')
                             <p class="card-price fw-bold mb-0">Rp{{ number_format($menu->price_ice, 0, ',', '.') }}</p>
                         @endif
-                        <a href="{{ route ('v_menudetail.detail')}}" class="btn text-light" style="background-color: #3B2621;">Pesan</a>
+                        <a href="{{ route('v_menudetail.detail',$menu->id)}}" class="btn text-light" style="background-color: #3B2621;">Pesan</a>
                     </div>
                 </div>
             </div>
